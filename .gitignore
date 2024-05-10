@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyxbldc
+
+# Version info
+jang/version.py
+
+# Build stuff
+build/
+develop-eggs/
+dist/
+eggs/
+sdist/
+*.egg-info/
+*.egg
+.eggs
+pip-wheel-metadata
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+.coverage.*
+junit*.xml
+reports
+
+# Sphinx documentation
+doc/_build/
+doc/auto_examples/
+doc/gen_modules/*.examples
+doc/api
+
+# Virtual env
+venv
+
+checks/

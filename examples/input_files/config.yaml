@@ -1,0 +1,16 @@
+analysis:
+  nside: -1  # -1 means that input skymaps will be used as is
+  apply_det_systematics: 0
+  ntoys_det_systematics: 0
+  search_region: region_90  # choices are 'fullsky', 'bestfit' or 'region_X' for the X% confidence region
+  likelihood: poisson  # choices are 'poisson', 'pointsource'
+  prior_signal: flat  # choices are 'flat', 'invsqrt', or 'jeffrey'
+
+range:
+  log10_flux: [-5, 5, 1000]
+  log10_etot: [48, 62, 1400]
+  log10_fnu: [-5, 10, 1500]
+  neutrino_energy_GeV: [5, 1e8]
+
+# gw:
+#   sample_priorities: []

@@ -1,0 +1,55 @@
+[project]
+name = "jang"
+version = "0.9"
+dependencies = [
+    "astropy",
+    "cached_property",
+    "datetime",
+    "h5py",
+    "healpy",
+    "ligo.skymap==1.0.6",
+    "matplotlib",
+    "numpy",
+    "pandas",
+    "python-ligo-lw",
+    "pyyaml",
+    "scipy",
+    "typing"
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "pytest",
+    "pytest-cov",
+    "pytest-flake8",
+    "pytest-pylint",
+    "pytest-watch",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["*"]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+exclude_also = [
+	"pass",
+	"pragma: no cover",
+	"raise AssertionError",
+	"raise NotImplementedError",
+	"if 0:",
+	"if False:",
+]
+
+[tool.coverage.html]
+directory = "coverage_html_report"
+
+[tool.black]
+line-length = 120
