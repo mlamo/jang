@@ -103,10 +103,9 @@ class PointSource(Transient):
             kappa = 1 / (self.err.to(u.rad).value) ** 2
             theta = vonmises.rvs(kappa, size=10000)
             phi = np.random.uniform(0, 2 * np.pi, size=10000)
-            dra = np.arcsin(np.sin(theta) * np.cos(phi))
-            ddec = np.arcsin(np.sin(theta) * np.sin(phi))
-            toys["ra"] = self.coords.ra.deg + np.rad2deg(dra)
-            toys["dec"] = self.coords.dec.deg + np.rad2deg(ddec)
+            coords = self.coords.directional_offset_by(phi*u.rad, theta*u.rad)
+            toys["ra"] = coords.ra.deg
+            toys["dec"] = coords.dec.deg
             if self.distance:
                 toys["distance_scaling"] = momenta.utils.conversions.distance_scaling(self.distance, self.redshift) * np.ones_like(toys["ra"])
         toys["ipix"] = hp.ang2pix(nside, toys["ra"], toys["dec"], lonlat=True)
