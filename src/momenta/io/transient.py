@@ -25,9 +25,8 @@ import logging
 import numpy as np
 import pandas as pd
 
-from scipy.stats import vonmises
-
 import momenta.utils.conversions
+import momenta.utils.toys
 
 
 class Transient:
@@ -92,7 +91,7 @@ class PointSource(Transient):
         self.distance = momenta.utils.conversions.redshift_to_lumidistance(redshift)
         self.redshift = redshift
 
-    def prepare_prior_samples(self, nside: int) -> pd.DataFrame:
+    def prepare_prior_samples(self, nside: int, size: int=10000) -> pd.DataFrame:
         toys = {}
         if self.err == 0 * u.deg:
             toys["ra"] = [self.coords.ra.deg]
@@ -100,12 +99,7 @@ class PointSource(Transient):
             if self.distance:
                 toys["distance_scaling"] = [momenta.utils.conversions.distance_scaling(self.distance, self.redshift)]
         else:
-            kappa = 1 / (self.err.to(u.rad).value) ** 2
-            theta = vonmises.rvs(kappa, size=10000)
-            phi = np.random.uniform(0, 2 * np.pi, size=10000)
-            coords = self.coords.directional_offset_by(phi*u.rad, theta*u.rad)
-            toys["ra"] = coords.ra.deg
-            toys["dec"] = coords.dec.deg
+            toys["ra"], toys["dec"] = momenta.utils.toys.pointsource_spatial(coords=self.coords, err=self.err, size=size)
             if self.distance:
                 toys["distance_scaling"] = momenta.utils.conversions.distance_scaling(self.distance, self.redshift) * np.ones_like(toys["ra"])
         toys["ipix"] = hp.ang2pix(nside, toys["ra"], toys["dec"], lonlat=True)
